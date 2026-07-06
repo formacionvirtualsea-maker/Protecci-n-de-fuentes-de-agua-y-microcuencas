@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Unidad · Protección de fuentes de agua y microcuencas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+    <style>
+        /* ---------- RESET + VARIABLES ---------- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        :root {
+            --morado-principal: #9B59B6;
+            --morado-oscuro: #6c3483;
+            --morado-claro: #F4ECF7;
+            --beige: #F5F5DC;
+            --blanco: #FFFFFF;
+            --gris-oscuro: #424242;
+            --amarillo-suave: #FBC02D;
+            --font: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            --verde-exito: #27AE60;
+            --rojo-error: #E74C3C;
+            --azul-agua: #1A5276;
+        }
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background: var(--gris-oscuro);
+            font-family: var(--font);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .presentation-wrapper {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            max-width: 100%;
+            max-height: 100%;
+            background: var(--beige);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ---------- SPLASH ---------- */
+        .splash {
+            position: absolute;
+            inset: 0;
+            z-index: 9999;
+            background: var(--beige);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+            pointer-events: auto;
+        }
+        .splash.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .splash-button-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+        .splash-button-bg {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 60px;
+            object-fit: contain;
+        }
+        .splash-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #0A4A2A;
+            color: var(--blanco);
+            border: none;
+            border-radius: 60px;
+            padding: 18px 48px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            transition: background 0.2s;
+            animation: pulse 1.8s infinite;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            white-space: nowrap;
+        }
+        .splash-btn:hover {
+            background: #0D6B3E;
+        }
+        .splash-btn img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        @keyframes pulse {
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.06);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .splash-button-wrapper {
+                max-width: 380px;
+            }
+            .splash-btn {
+                font-size: 1.2rem;
+                padding: 14px 28px;
+                gap: 8px;
+            }
+            .splash-btn img {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        /* ---------- BOTÓN CERRAR ---------- */
+        .close-btn {
+            position: absolute;
+            top: 18px;
+            right: 20px;
+            z-index: 8000;
+            background: #0A4A2A;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 8px 18px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: background 0.2s;
+        }
+        .close-btn:hover {
+            background: #0D6B3E;
+        }
+
+        /* ---------- BARRA DE PROGRESO ---------- */
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 6px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.08);
+            z-index: 7000;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #0A4A2A;
+            transition: width 0.3s ease;
+        }
+
+        /* ---------- SWIPER ---------- */
+        .swiper {
+            width: 100%;
+            height: 100%;
+            background: var(--beige);
+        }
+        .swiper-slide {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding: 80px 50px 70px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--beige);
+            scroll-behavior: smooth;
+        }
+        .swiper-slide:nth-child(odd) {
+            background: var(--beige);
+        }
+        .swiper-slide:nth-child(even) {
+            background: var(--morado-claro);
+        }
+
+        .swiper-slide h1 {
+            color: var(--morado-oscuro);
+            font-size: 2.6rem;
+            border-bottom: 4px solid var(--morado-principal);
+            display: inline-block;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+        .swiper-slide h2 {
+            color: var(--morado-oscuro);
+            font-size: 2rem;
+            margin: 15px 0 10px;
+        }
+        .swiper-slide h3 {
+            color: var(--morado-oscuro);
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
+        .swiper-slide p,
+        .swiper-slide li {
+            color: var(--gris-oscuro);
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+        .swiper-slide ul,
+        .swiper-slide ol {
+            margin-left: 2rem;
+            margin-top: 12px;
+        }
+        .swiper-slide li {
+            margin-bottom: 8px;
+        }
+
+        .highlight-box {
+            background: var(--morado-claro);
+            padding: 20px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            margin: 18px 0;
+            color: var(--gris-oscuro);
+            border-left: 5px solid var(--morado-principal);
+        }
+
+        /* ---------- TARJETAS INFORMATIVAS ---------- */
+        .info-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .info-card {
+            flex: 1 1 280px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border-top: 6px solid var(--morado-principal);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            cursor: default;
+            min-height: 180px;
+        }
+        .info-card h3 {
+            color: var(--morado-oscuro);
+        }
+        .info-card .ejemplo {
+            background: #FFF8E1;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 0.95rem;
+            border-left: 4px solid var(--amarillo-suave);
+        }
+
+        .info-card-verde {
+            border-top-color: var(--verde-exito);
+        }
+        .info-card-verde h3 {
+            color: var(--verde-exito);
+        }
+
+        .info-card-azul {
+            border-top-color: var(--azul-agua);
+        }
+        .info-card-azul h3 {
+            color: var(--azul-agua);
+        }
+
+        .info-card-naranja {
+            border-top-color: var(--amarillo-suave);
+        }
+        .info-card-naranja h3 {
+            color: #8a6d00;
+        }
+
+        /* ---------- GRID DE AMENAZAS ---------- */
+        .amenazas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin: 15px 0;
+        }
+        .amenaza-item {
+            background: white;
+            padding: 14px 16px;
+            border-radius: 10px;
+            border-left: 4px solid #E74C3C;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            font-size: 0.95rem;
+            color: #555;
+        }
+        .amenaza-item strong {
+            color: #C0392B;
+        }
+
+        /* ---------- GRID DE ACCIONES ---------- */
+        .acciones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .accion-item {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border-left: 4px solid var(--verde-exito);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            font-size: 0.95rem;
+            color: #555;
+        }
+        .accion-item strong {
+            color: var(--verde-exito);
+        }
+
+        /* ---------- BENEFICIOS ---------- */
+        .beneficios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .beneficio-item {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            border-top: 4px solid var(--azul-agua);
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+        .beneficio-item span {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .beneficio-item p {
+            font-weight: 600;
+            color: var(--azul-agua);
+            font-size: 0.95rem;
+        }
+
+        /* ---------- ACTIVIDAD DE SELECCIÓN ---------- */
+        .selection-activity {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 15px 0;
+            width: 100%;
+        }
+        .selection-question {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            border-left: 5px solid var(--morado-principal);
+            margin-bottom: 10px;
+        }
+        .selection-question p {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--morado-oscuro);
+            margin-bottom: 12px;
+        }
+        .options-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        .option-item {
+            background: var(--morado-principal);
+            color: white;
+            padding: 12px 22px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            user-select: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+            display: inline-block;
+            border: 3px solid transparent;
+            text-align: center;
+        }
+        .option-item:hover {
+            transform: scale(1.03);
+        }
+        .option-item.selected {
+            border-color: var(--verde-exito);
+            background: var(--verde-exito);
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.3);
+        }
+        .option-item.correct-answer {
+            background: var(--verde-exito);
+            border-color: var(--verde-exito);
+        }
+        .option-item.wrong-answer {
+            background: var(--rojo-error);
+            border-color: var(--rojo-error);
+        }
+        .option-item.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .feedback-message {
+            margin-top: 12px;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            display: none;
+            text-align: center;
+        }
+        .feedback-message.success {
+            display: block;
+            background: #d5f5e3;
+            color: #1a7a42;
+            border-left: 5px solid var(--verde-exito);
+        }
+        .feedback-message.error {
+            display: block;
+            background: #fadbd8;
+            color: #922b21;
+            border-left: 5px solid var(--rojo-error);
+        }
+
+        .btn-verificar {
+            background: var(--morado-principal);
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 10px 28px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: background 0.2s;
+            align-self: center;
+        }
+        .btn-verificar:hover {
+            background: var(--morado-oscuro);
+        }
+        .btn-verificar:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .selection-question.correcta {
+            border-left-color: var(--verde-exito);
+        }
+
+        @media (max-width: 700px) {
+            .swiper-slide {
+                padding: 70px 15px 80px 15px;
+            }
+            .swiper-slide h1 {
+                font-size: 2rem;
+            }
+            .swiper-slide h2 {
+                font-size: 1.5rem;
+            }
+            .option-item {
+                font-size: 0.85rem;
+                padding: 8px 16px;
+            }
+            .selection-question {
+                padding: 15px;
+            }
+            .info-card {
+                flex: 1 1 100%;
+                min-height: 140px;
+                padding: 15px;
+            }
+            .info-card h3 {
+                font-size: 1.2rem;
+            }
+            .btn-verificar {
+                font-size: 1rem;
+                padding: 8px 20px;
+            }
+            .amenazas-grid,
+            .acciones-grid,
+            .beneficios-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .swiper-slide {
+                padding: 60px 10px 70px 10px;
+            }
+            .option-item {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
+            .selection-question p {
+                font-size: 0.95rem;
+            }
+            .info-card {
+                padding: 12px;
+            }
+            .beneficio-item span {
+                font-size: 2.5rem;
+            }
+            .amenazas-grid,
+            .acciones-grid,
+            .beneficios-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ---------- NAVEGACIÓN ---------- */
+        .nav-bar {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            z-index: 6000;
+            pointer-events: none;
+        }
+        .nav-bar>* {
+            pointer-events: auto;
+        }
+        .nav-btn {
+            background: var(--morado-principal);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: background 0.2s;
+        }
+        .nav-btn:hover {
+            background: var(--morado-oscuro);
+        }
+        .nav-btn.hidden-btn {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .nav-counter {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: var(--gris-oscuro);
+            backdrop-filter: blur(4px);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+        .text-muted {
+            color: #777;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="presentation-wrapper" id="app">
+        <div class="splash" id="splash">
+            <div class="splash-button-wrapper">
+                <img class="splash-button-bg" src="https://www.dropbox.com/scl/fi/dbeq7n5pkl96wtbvvacc2/boton.png?rlkey=phwhgfbwq03x05hlwz0rew9ur&st=l0zaim7a&dl=1" alt="Fondo del botón">
+                <button class="splash-btn" id="startBtn">
+                    <img src="https://www.dropbox.com/scl/fi/dbeq7n5pkl96wtbvvacc2/boton.png?rlkey=phwhgfbwq03x05hlwz0rew9ur&st=l0zaim7a&dl=1" alt="Ver">
+                    INGRESAR
+                </button>
+            </div>
+        </div>
+
+        <button class="close-btn" id="closeBtn">✕ Cerrar</button>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="swiper" id="swiperContainer">
+            <div class="swiper-wrapper">
+                <!-- SLIDE 1: PORTADA -->
+                <div class="swiper-slide">
+                    <h1>TEMA 2</h1>
+                    <h2>Protección de fuentes de agua y microcuencas</h2>
+                    <div class="highlight-box">
+                        <strong>📌 Infografía explicativa:</strong> Fortalecer las capacidades para enfrentar los efectos del cambio climático, promoviendo la gobernanza hídrica y el manejo sostenible.
+                        <br><small class="text-muted">Duración estimada: 1 hora</small>
+                    </div>
+                    <p style="margin-top: 30px; text-align: center; color: var(--morado-principal); font-weight: 500;">⬇️ Desliza para comenzar ⬇️</p>
+                </div>
+
+                <!-- SLIDE 2: ¿QUÉ SON Y POR QUÉ ES IMPORTANTE PROTEGERLAS? -->
+                <div class="swiper-slide">
+                    <h2>💧 ¿Qué son las fuentes de agua y las microcuencas?</h2>
+                    <p>Son los lugares de donde proviene el agua que usan las comunidades, como ríos, quebradas, nacimientos y zonas de recarga hídrica.</p>
+                    <div class="info-cards">
+                        <div class="info-card info-card-azul">
+                            <h3>🔵 ¿Por qué es importante protegerlas?</h3>
+                            <ul style="font-size: 0.95rem; line-height: 1.8; margin-left: 1.2rem;">
+                                <li>Garantizan agua para el consumo humano</li>
+                                <li>Aseguran agua para la agricultura</li>
+                                <li>Mantienen la supervivencia de todos los ecosistemas locales</li>
+                            </ul>
+                        </div>
+                        <div class="info-card info-card-verde">
+                            <h3>🌳 Resiliencia comunitaria</h3>
+                            <p>La organización y los acuerdos colectivos son la base de una gobernanza justa del recurso natural.</p>
+                            <div class="ejemplo">💡 El análisis del agua y la resolución pacífica de conflictos por su uso son indispensables.</div>
+                        </div>
+                    </div>
+                    <p class="text-center" style="margin-top: 20px;">⬇️ Desliza para conocer las amenazas ⬇️</p>
+                </div>
+
+                <!-- SLIDE 3: PRINCIPALES AMENAZAS (PARTE 1) -->
+                <div class="swiper-slide">
+                    <h2>⚠️ Principales amenazas (1/2)</h2>
+                    <p>Factores que ponen en riesgo las fuentes de agua y microcuencas:</p>
+                    <div class="amenazas-grid">
+                        <div class="amenaza-item"><strong>🌳 Deforestación:</strong> Pérdida de cobertura boscosa que reduce la retención de agua.</div>
+                        <div class="amenaza-item"><strong>🗑️ Contaminación:</strong> Acumulación de basura y vertido de químicos en fuentes hídricas.</div>
+                        <div class="amenaza-item"><strong>🔥 Quema de bosques:</strong> Destrucción del suelo y afectación directa a los nacimientos.</div>
+                    </div>
+                    <p class="text-center" style="margin-top: 20px;">⬇️ Desliza para más amenazas ⬇️</p>
+                </div>
+
+                <!-- SLIDE 4: PRINCIPALES AMENAZAS (PARTE 2) -->
+                <div class="swiper-slide">
+                    <h2>⚠️ Principales amenazas (2/2)</h2>
+                    <div class="amenazas-grid">
+                        <div class="amenaza-item"><strong>💧 Sobresuso del agua:</strong> Explotación desmedida que agota las fuentes disponibles.</div>
+                        <div class="amenaza-item"><strong>🌡️ Cambio climático:</strong> Alteración de lluvias y aumento de sequías extremas.</div>
+                    </div>
+                    <p class="text-center" style="margin-top: 20px;">⬇️ Desliza para conocer las acciones de protección ⬇️</p>
+                </div>
+
+                <!-- SLIDE 5: ACCIONES DE PROTECCIÓN (PARTE 1) -->
+                <div class="swiper-slide">
+                    <h2>🌱 Acciones de protección (1/2)</h2>
+                    <p>Lo que podemos hacer para cuidar nuestras fuentes de agua:</p>
+                    <div class="acciones-grid">
+                        <div class="accion-item"><strong>🌳 Reforestar:</strong> Plantar árboles en áreas cercanas a nacimientos y riberas de ríos.</div>
+                        <div class="accion-item"><strong>🚯 Evitar desechos:</strong> No botar basura ni desperdicios en ríos y quebradas.</div>
+                        <div class="accion-item"><strong>🧪 Uso responsable:</strong> No contaminar los entornos con agroquímicos dañinos.</div>
+                    </div>
+                    <p class="text-center" style="margin-top: 20px;">⬇️ Desliza para más acciones ⬇️</p>
+                </div>
+
+                <!-- SLIDE 6: ACCIONES DE PROTECCIÓN (PARTE 2) -->
+                <div class="swiper-slide">
+                    <h2>🌱 Acciones de protección (2/2)</h2>
+                    <div class="acciones-grid">
+                        <div class="accion-item"><strong>🤝 Organización:</strong> Realizar jornadas comunitarias de limpieza periódicas.</div>
+                        <div class="accion-item"><strong>⚖️ Gobernanza:</strong> Promover acuerdos comunitarios para el cuidado justo del agua.</div>
+                        <div class="accion-item"><strong>📚 Educación:</strong> Capacitar a la comunidad sobre la importancia del agua y su cuidado.</div>
+                    </div>
+                    <div class="highlight-box" style="background: #E8F5E9; border-left-color: #2E7D32; margin-top: 15px;">
+                        💡 <strong>Idea clave:</strong> La gobernanza hídrica se construye desde el territorio, con la participación activa de la comunidad.
+                    </div>
+                    <p class="text-center" style="margin-top: 20px;">⬇️ Desliza para conocer los beneficios ⬇️</p>
+                </div>
+
+                <!-- SLIDE 7: BENEFICIOS DE LA CONSERVACIÓN (PARTE 1) -->
+                <div class="swiper-slide">
+                    <h2>✨ Beneficios de la conservación (1/2)</h2>
+                    <p>Proteger nuestras fuentes de agua nos trae múltiples beneficios:</p>
+                    <div class="beneficios-grid">
+                        <div class="beneficio-item">
+                            <span>💧</span>
+                            <p>Mayor disponibilidad de agua segura y continua para consumo y agricultura</p>
+                        </div>
+                        <div class="beneficio-item">
+                            <span>🌳</span>
+                            <p>Protección natural del suelo contra la erosión y cuidado de la biodiversidad</p>
+                        </div>
+                    </div>
+                    <p class="text-center" style="margin-top: 20px;">⬇️ Desliza para más beneficios ⬇️</p>
+                </div>
+
+                <!-- SLIDE 8: BENEFICIOS DE LA CONSERVACIÓN (PARTE 2) -->
+                <div class="swiper-slide">
+                    <h2>✨ Beneficios de la conservación (2/2)</h2>
+                    <div class="beneficios-grid">
+                        <div class="beneficio-item">
+                            <span>🧹</span>
+                            <p>Menor contaminación: ríos limpios y ecosistemas hídricos más saludables</p>
+                        </div>
+                        <div class="beneficio-item">
+                            <span>🏥</span>
+                            <p>Salud comunitaria: reducción de enfermedades y mejor calidad de vida</p>
+                        </div>
+                    </div>
+                    <p class="text-center" style="margin-top: 20px;">⬇️ Desliza para la autoevaluación ⬇️</p>
+                </div>
+
+                <!-- SLIDE 9: PREGUNTA 1 -->
+                <div class="swiper-slide">
+                    <h2>📝 Autoevaluación</h2>
+                    <p><strong>Pregunta 1:</strong> ¿Qué son las fuentes de agua y las microcuencas?</p>
+                    <div class="selection-activity">
+                        <div class="selection-question" data-question="1">
+                            <div class="options-grid" data-target="p1">
+                                <span class="option-item" data-value="correcta">Lugares de donde proviene el agua que usan las comunidades</span>
+                                <span class="option-item" data-value="incorrecta">Lugares donde se almacena el agua para la industria</span>
+                                <span class="option-item" data-value="incorrecta">Solo los ríos grandes y navegables</span>
+                            </div>
+                            <div class="feedback-message" id="feedback1"></div>
+                            <button class="btn-verificar" data-target="p1">✅ Verificar</button>
+                        </div>
+                    </div>
+                    <p style="margin-top: 12px; font-size: 0.9rem; color: #777; text-align: center;">💡 Haz clic en la respuesta correcta y luego en "Verificar".</p>
+                </div>
+
+                <!-- SLIDE 10: PREGUNTA 2 -->
+                <div class="swiper-slide">
+                    <h2>📝 Autoevaluación</h2>
+                    <p><strong>Pregunta 2:</strong> ¿Cuál es una amenaza para las fuentes de agua?</p>
+                    <div class="selection-activity">
+                        <div class="selection-question" data-question="2">
+                            <div class="options-grid" data-target="p2">
+                                <span class="option-item" data-value="incorrecta">La reforestación</span>
+                                <span class="option-item" data-value="correcta">La deforestación y la contaminación</span>
+                                <span class="option-item" data-value="incorrecta">La organización comunitaria</span>
+                            </div>
+                            <div class="feedback-message" id="feedback2"></div>
+                            <button class="btn-verificar" data-target="p2">✅ Verificar</button>
+                        </div>
+                    </div>
+                    <p style="margin-top: 12px; font-size: 0.9rem; color: #777; text-align: center;">💡 Selecciona la opción correcta.</p>
+                </div>
+
+                <!-- SLIDE 11: PREGUNTA 3 -->
+                <div class="swiper-slide">
+                    <h2>📝 Autoevaluación</h2>
+                    <p><strong>Pregunta 3:</strong> ¿Qué acción ayuda a proteger las fuentes de agua?</p>
+                    <div class="selection-activity">
+                        <div class="selection-question" data-question="3">
+                            <div class="options-grid" data-target="p3">
+                                <span class="option-item" data-value="incorrecta">Botar basura en los ríos</span>
+                                <span class="option-item" data-value="incorrecta">Quemar bosques</span>
+                                <span class="option-item" data-value="correcta">Reforestar áreas cercanas a nacimientos</span>
+                            </div>
+                            <div class="feedback-message" id="feedback3"></div>
+                            <button class="btn-verificar" data-target="p3">✅ Verificar</button>
+                        </div>
+                    </div>
+                    <p style="margin-top: 12px; font-size: 0.9rem; color: #777; text-align: center;">💡 Selecciona la opción correcta.</p>
+                </div>
+
+                <!-- SLIDE 12: PREGUNTA 4 -->
+                <div class="swiper-slide">
+                    <h2>📝 Autoevaluación</h2>
+                    <p><strong>Pregunta 4:</strong> ¿Qué es la gobernanza hídrica?</p>
+                    <div class="selection-activity">
+                        <div class="selection-question" data-question="4">
+                            <div class="options-grid" data-target="p4">
+                                <span class="option-item" data-value="incorrecta">El manejo del agua solo por el gobierno</span>
+                                <span class="option-item" data-value="correcta">La organización y acuerdos colectivos para el cuidado del agua</span>
+                                <span class="option-item" data-value="incorrecta">La privatización de las fuentes de agua</span>
+                            </div>
+                            <div class="feedback-message" id="feedback4"></div>
+                            <button class="btn-verificar" data-target="p4">✅ Verificar</button>
+                        </div>
+                    </div>
+                    <p style="margin-top: 12px; font-size: 0.9rem; color: #777; text-align: center;">💡 Selecciona la opción correcta.</p>
+                </div>
+
+                <!-- SLIDE 13: PREGUNTA 5 -->
+                <div class="swiper-slide">
+                    <h2>📝 Autoevaluación</h2>
+                    <p><strong>Pregunta 5:</strong> ¿Cuál es un beneficio de proteger las fuentes de agua?</p>
+                    <div class="selection-activity">
+                        <div class="selection-question" data-question="5">
+                            <div class="options-grid" data-target="p5">
+                                <span class="option-item" data-value="incorrecta">Mayor contaminación de los ríos</span>
+                                <span class="option-item" data-value="incorrecta">Menor disponibilidad de agua</span>
+                                <span class="option-item" data-value="correcta">Mayor disponibilidad de agua y mejor salud comunitaria</span>
+                            </div>
+                            <div class="feedback-message" id="feedback5"></div>
+                            <button class="btn-verificar" data-target="p5">✅ Verificar</button>
+                        </div>
+                    </div>
+                    <p style="margin-top: 12px; font-size: 0.9rem; color: #777; text-align: center;">💡 Selecciona la opción correcta.</p>
+                </div>
+
+                <!-- SLIDE 14: ACTIVIDAD COMPLETADA -->
+                <div class="swiper-slide">
+                    <h2>🎉 ¡Actividad completada!</h2>
+                    <div class="highlight-box" style="background: #d5f5e3; border-left-color: var(--verde-exito);">
+                        <strong>✅ Excelente trabajo:</strong> Has finalizado el TEMA 2 sobre Protección de fuentes de agua y microcuencas. Has aprendido qué son, su importancia, las principales amenazas, las acciones de protección y los beneficios de conservarlas.
+                    </div>
+                    <div style="background: white; padding: 20px; border-radius: 12px; border-top: 5px solid var(--azul-agua); margin-top: 15px;">
+                        <h3 style="color: var(--azul-agua);">🌍 Reflexión final</h3>
+                        <p>El agua es un recurso vital y limitado. Proteger las fuentes de agua y las microcuencas es responsabilidad de todas y todos. Cada acción cuenta para garantizar agua para las generaciones presentes y futuras.</p>
+                    </div>
+                    <p class="text-center" style="margin-top: 20px;">⬇️ Desliza para la clave de aprendizaje ⬇️</p>
+                </div>
+
+                <!-- SLIDE 15: CLAVE DE APRENDIZAJE -->
+                <div class="swiper-slide">
+                    <h2>💡 Clave de aprendizaje</h2>
+                    <div style="background: white; padding: 20px; border-radius: 12px; border-top: 5px solid var(--verde-exito); margin-top: 15px;">
+                        <h3 style="color: var(--verde-exito);">💡 Ideas clave</h3>
+                        <ul style="font-size: 1.1rem; line-height: 2; margin-left: 1.5rem;">
+                            <li>Las <strong>fuentes de agua</strong> y <strong>microcuencas</strong> son vitales para la vida y la agricultura.</li>
+                            <li>La <strong>deforestación, contaminación y cambio climático</strong> son sus principales amenazas.</li>
+                            <li>La <strong>reforestación, limpieza y gobernanza comunitaria</strong> son acciones clave para su protección.</li>
+                            <li>La <strong>participación comunitaria</strong> y los <strong>acuerdos colectivos</strong> son fundamentales para una gestión justa del agua.</li>
+                            <li>Proteger el agua es proteger la vida y el futuro de nuestras comunidades.</li>
+                        </ul>
+                    </div>
+                    <div style="margin-top: 25px; padding: 20px; background: var(--morado-claro); border-radius: 12px; text-align: center;">
+                        <p style="font-size: 1.2rem;">💧 ¡Gracias por aprender y reflexionar sobre la protección del agua!</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="nav-bar" id="navBar">
+            <button class="nav-btn" id="prevBtn">◀ Anterior</button>
+            <span class="nav-counter" id="slideCounter">1 / 15</span>
+            <button class="nav-btn" id="nextBtn">Siguiente ▶</button>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            "use strict";
+
+            const splash = document.getElementById('splash');
+            const startBtn = document.getElementById('startBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const progressFill = document.getElementById('progressFill');
+            const slideCounter = document.getElementById('slideCounter');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            const bgm = new Audio(
+                'https://www.dropbox.com/scl/fi/49a75ks3r82xxa0r6oqj1/musica-fondo.mp3?rlkey=1ag90k1gtwxhm6svit2qr6g75&st=chpxf7n1&dl=1'
+            );
+            bgm.loop = true;
+            bgm.volume = 0.2;
+
+            let swiper = null;
+
+            // ---------- SELECCIÓN CON CLIC ----------
+            function initSelection() {
+                document.querySelectorAll('.option-item').forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        if (this.classList.contains('disabled')) return;
+
+                        const parentGrid = this.closest('.options-grid');
+                        parentGrid.querySelectorAll('.option-item').forEach(opt => {
+                            if (opt !== this) {
+                                opt.classList.remove('selected');
+                            }
+                        });
+                        this.classList.toggle('selected');
+                    });
+                });
+
+                document.querySelectorAll('.btn-verificar').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const target = this.dataset.target;
+                        const parentGrid = document.querySelector(`.options-grid[data-target="${target}"]`);
+                        if (!parentGrid) return;
+
+                        const selected = parentGrid.querySelector('.option-item.selected');
+                        const questionDiv = this.closest('.selection-question');
+                        const feedback = questionDiv.querySelector('.feedback-message');
+
+                        if (!selected) {
+                            mostrarFeedback(feedback, 'error', '⚠️ Por favor, selecciona una opción.');
+                            return;
+                        }
+
+                        const isCorrect = selected.dataset.value === 'correcta';
+
+                        parentGrid.querySelectorAll('.option-item').forEach(opt => {
+                            opt.classList.add('disabled');
+                            if (opt.dataset.value === 'correcta') {
+                                opt.classList.add('correct-answer');
+                            } else {
+                                opt.classList.add('wrong-answer');
+                            }
+                        });
+
+                        if (isCorrect) {
+                            questionDiv.classList.add('correcta');
+                            mostrarFeedback(feedback, 'success', '🎉 ¡Correcto! Bien hecho.');
+                            this.disabled = true;
+                        } else {
+                            mostrarFeedback(feedback, 'error', '❌ No es correcto. La opción correcta se ha marcado en verde.');
+                            this.disabled = true;
+                        }
+                    });
+                });
+            }
+
+            function mostrarFeedback(element, type, message) {
+                if (!element) return;
+                element.className = 'feedback-message ' + type;
+                element.textContent = message;
+                element.style.display = 'block';
+                if (type === 'error') {
+                    setTimeout(() => {
+                        element.style.display = 'none';
+                    }, 5000);
+                }
+            }
+
+            // ---------- PROGRESS ----------
+            function updateProgress(activeIndex, total) {
+                const pct = ((activeIndex + 1) / total) * 100;
+                progressFill.style.width = pct + '%';
+                slideCounter.textContent = (activeIndex + 1) + ' / ' + total;
+
+                if (activeIndex === 0) prevBtn.classList.add('hidden-btn');
+                else prevBtn.classList.remove('hidden-btn');
+
+                if (activeIndex === total - 1) nextBtn.classList.add('hidden-btn');
+                else nextBtn.classList.remove('hidden-btn');
+            }
+
+            function requestFullscreen() {
+                const elem = document.documentElement;
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.webkitRequestFullscreen) {
+                    elem.webkitRequestFullscreen();
+                } else if (elem.msRequestFullscreen) {
+                    elem.msRequestFullscreen();
+                }
+            }
+
+            function initSwiper() {
+                swiper = new Swiper('.swiper', {
+                    direction: 'horizontal',
+                    loop: false,
+                    on: {
+                        slideChange: function() {
+                            updateProgress(this.activeIndex, this.slides.length);
+                        },
+                        init: function() {
+                            updateProgress(0, this.slides.length);
+                        }
+                    }
+                });
+                prevBtn.onclick = () => swiper.slidePrev();
+                nextBtn.onclick = () => swiper.slideNext();
+            }
+
+            function startPresentation() {
+                requestFullscreen();
+                bgm.play().catch(() => {});
+                splash.classList.add('hidden');
+                closeBtn.style.display = 'block';
+                if (!swiper) {
+                    initSwiper();
+                    initSelection();
+                }
+            }
+
+            function closePresentation() {
+                bgm.pause();
+                bgm.currentTime = 0;
+                splash.classList.remove('hidden');
+                closeBtn.style.display = 'none';
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                } else if (document.webkitFullscreenElement) {
+                    document.webkitExitFullscreen();
+                } else if (document.msFullscreenElement) {
+                    document.msExitFullscreen();
+                }
+            }
+
+            startBtn.addEventListener('click', startPresentation);
+            closeBtn.addEventListener('click', closePresentation);
+
+        })();
+    </script>
+</body>
+</html>
